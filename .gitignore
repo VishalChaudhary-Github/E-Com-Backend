@@ -1,0 +1,6 @@
+.venv
+.env
+.idea
+api/__pycache__
+api/migrations/__pycache__
+Ecom_Backend/__pycache__

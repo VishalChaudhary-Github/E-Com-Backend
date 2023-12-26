@@ -30,6 +30,7 @@ class Category(models.Model):
 
     class Meta:
         db_table = 'category'
+        ordering = ['id']
 
     def __str__(self):
         return f'{self.name}'

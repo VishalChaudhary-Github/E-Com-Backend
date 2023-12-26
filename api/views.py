@@ -86,11 +86,14 @@ class ActivateAccountView(APIView):
             return Response(data={"message": "Account Activated"}, status=status.HTTP_200_OK)
 
 
-class CategoryListView(APIView):
+class CategoryListView(APIView, PageNumberPagination):
+    page_size = 3
+    page_query_param = 'pg'
     def get(self, request):
         qs = Category.objects.all()
-        serialize = CategoryListSerializer(instance=qs, many=True)
-        return Response(data=serialize.data)
+        result = self.paginate_queryset(qs, request, view=self)
+        serialize = CategoryListSerializer(instance=result, many=True)
+        return self.get_paginated_response(data=serialize.data)
 
 
 class AddCategoryView(APIView):

@@ -8,6 +8,9 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAdminUser
 from django.contrib.auth.models import User
 from rest_framework.pagination import PageNumberPagination
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.views.decorators.vary import vary_on_headers
 
 
 class SignUpView(APIView):
@@ -32,6 +35,8 @@ class CreateCustomerView(APIView):
 
 
 class CustomerView(APIView):
+    @method_decorator(cache_page(60*5))
+    @method_decorator(vary_on_headers('Authorization'))
     def get(self, request):
         try:
             obj = request.user.customer
@@ -89,7 +94,10 @@ class ActivateAccountView(APIView):
 class CategoryListView(APIView, PageNumberPagination):
     page_size = 3
     page_query_param = 'pg'
+
+    @method_decorator(cache_page(60*5))
     def get(self, request):
+        print('Hello this time not cached')
         qs = Category.objects.all()
         result = self.paginate_queryset(qs, request, view=self)
         serialize = CategoryListSerializer(instance=result, many=True)
@@ -124,6 +132,7 @@ class ProductListView(APIView, PageNumberPagination):
     page_size = 2
     page_query_param = 'pg'
 
+    @method_decorator(cache_page(60*5))
     def get(self, request):
         qs = Product.objects.all()
         result = self.paginate_queryset(qs, request, view=self)
@@ -181,6 +190,7 @@ class AddToCartView(APIView):
 
 
 class ListCartView(APIView):
+    @method_decorator(cache_page(60*5))
     def get(self, request):
         qs = Cart.objects.filter(customer_id=request.user.customer.pk)
         serialize = CartListSerializer(instance=qs, many=True)

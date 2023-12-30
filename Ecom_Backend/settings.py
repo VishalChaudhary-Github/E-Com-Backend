@@ -141,11 +141,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework_simplejwt.authentication.JWTAuthentication'],
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
     'DEFAULT_THROTTLE_CLASSES': ['rest_framework.throttling.UserRateThrottle'],
-    'DEFAULT_THROTTLE_RATES': {'user': '20/minute'}
+    'DEFAULT_THROTTLE_RATES': {'user': '10/minute'}
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60)
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10)
 }
 
 CACHES = {

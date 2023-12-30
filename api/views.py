@@ -74,7 +74,7 @@ class AccountDeactivateView(APIView):
             return Response(data={"message": "Account Deactivated"}, status=status.HTTP_200_OK)
 
 
-class ActivateAccountView(APIView):
+class ReActivateAccountView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -88,7 +88,7 @@ class ActivateAccountView(APIView):
         else:
             obj.is_active = True
             obj.save()
-            return Response(data={"message": "Account Activated"}, status=status.HTTP_200_OK)
+            return Response(data={"message": "Account Activated Again"}, status=status.HTTP_200_OK)
 
 
 class CategoryListView(APIView, PageNumberPagination):
